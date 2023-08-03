@@ -4,17 +4,24 @@ import {
   createDocument,
   updateDocument,
   fetchDocuments,
+  deleteDocument,
 } from "@/lib/services/datastore"
 
 export interface Destination {
   platform: "web" | "ios" | "android"
   value: string
 }
+export interface SeoConfig {
+  title: string
+  description: string
+  media: string
+}
 
 export interface LinkConfig {
   id: string
   meta: Record<string, any>
   name: string
+  seo: SeoConfig
   destinations: Array<Destination>
 }
 
@@ -53,8 +60,8 @@ export const fetchById = async (
   const doc = await getDocument(docId)
 
   const docData: any = {
-    id: doc.id,
     ...doc.data(),
+    id: doc.id,
     meta: {
       ...doc.get("meta"),
       updatedAt: doc.updateTime?.toDate().toISOString(),
@@ -62,6 +69,12 @@ export const fetchById = async (
     },
   }
   return docData
+}
+
+export const deleteById = async (id: string, userId: string): Promise<void> => {
+  console.log("deleting for doc", { id, userId })
+  const docId = buildCollectionDocPath(userId, id)
+  await deleteDocument(docId)
 }
 
 export const fetchLinkConfigs = async ({
@@ -76,12 +89,11 @@ export const fetchLinkConfigs = async ({
     console.log("fetching link configs for collection", collection)
     const data = await fetchDocuments(collection, limit)
     return data.docs.map((doc) => {
-      const meta = doc.get("meta")
       return {
-        id: doc.id,
         ...doc.data(),
+        id: doc.id,
         meta: {
-          ...meta,
+          ...doc.get("meta"),
           updatedAt: doc.updateTime.toDate().toISOString(),
           createdAt: doc.createTime.toDate().toISOString(),
         },

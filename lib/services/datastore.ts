@@ -22,10 +22,15 @@ export const getDocument = async (
   return doc
 }
 
+export const deleteDocument = async (docId: string): Promise<void> => {
+  const firestore = getFirestore()
+  const document = firestore.doc(docId)
+  await document.delete()
+}
+
 export const updateDocument = async (
   docId: string,
   data: any,
-  existing: boolean = true
 ): Promise<string> => {
   const firestore = getFirestore()
 
