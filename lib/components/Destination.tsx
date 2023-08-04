@@ -1,14 +1,14 @@
-import { Typography, TextField, Box } from "@mui/material"
-import { Public, Android, PhoneIphone } from "@mui/icons-material"
+import { Typography, TextField, Box, IconButton } from "@mui/material"
+import { Public, Android, PhoneIphone, Delete } from "@mui/icons-material"
 
 export interface DestinationProps {
   platform: "web" | "ios" | "android"
   value: string
   onChange: (value: string) => void
+  onRemove: () => void
 }
 
-export const Destination = ({ platform, value, onChange }: DestinationProps) => {
-
+export const Destination = ({ platform, value, onChange, onRemove }: DestinationProps) => {
   const PlatformIcon = () => {
     switch (platform) {
       case "web":
@@ -23,8 +23,13 @@ export const Destination = ({ platform, value, onChange }: DestinationProps) => 
   return (
     <Box m={1}>
       <Box display="flex" alignItems="center" justifyContent="space-between">
-        <Typography variant="subtitle2">Platform: {platform}</Typography>
-        <PlatformIcon />
+        <Box display="flex" alignItems="center" gap={1}>
+          <PlatformIcon />
+          <Typography variant="subtitle2">Platform: {platform}</Typography>
+        </Box>
+        <IconButton onClick={onRemove}>
+          <Delete />
+        </IconButton>
       </Box>
 
       {platform === "web" && <Web value={value} onChange={onChange} />}
@@ -33,7 +38,6 @@ export const Destination = ({ platform, value, onChange }: DestinationProps) => 
     </Box>
   )
 }
-
 
 const Web = ({ value, onChange }: { value: string, onChange: (value: string) => void }) => {
   return (

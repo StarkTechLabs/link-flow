@@ -25,14 +25,16 @@ export interface EditModalProps {
 }
 
 const EditModal = ({ open, onClose, config }: EditModalProps): JSX.Element => {
-  console.log("config", config)
   const [name, setName] = useState(config?.name || "")
   const [seoTitle, setSeoTitle] = useState(config?.seo?.title || "")
   const [seoDescription, setSeoDescription] = useState(config?.seo?.description || "")
   const [seoMedia, setSeoMedia] = useState(config?.seo?.media || "")
   const [webDestValue, setWebDestValue] = useState(config?.destinations?.find(dest => dest.platform === "web")?.value || "")
+  const [webEnabled, setWebEnabled] = useState(!!config?.destinations?.find(dest => dest.platform === "web")?.value)
   const [iosDestValue, setIosDestValue] = useState(config?.destinations?.find(dest => dest.platform === "ios")?.value || "")
+  const [iosEnabled, setIosEnabled] = useState(!!config?.destinations?.find(dest => dest.platform === "ios")?.value)
   const [androidDestValue, setAndroidDestValue] = useState(config?.destinations?.find(dest => dest.platform === "android")?.value || "")
+  const [androidEnabled, setAndroidEnabled] = useState(!!config?.destinations?.find(dest => dest.platform === "android")?.value)
 
   const [error, setError] = useState("")
   const [isLoading, setIsLoading] = useState(false)
@@ -152,14 +154,13 @@ const EditModal = ({ open, onClose, config }: EditModalProps): JSX.Element => {
 
         <Box my={2}>
           <Typography variant="subtitle1">Destinations</Typography>
-          {/* todo: better check here */}
-          {!webDestValue && <IconButton onClick={() => setWebDestValue("https://")}><Public color="primary" /></IconButton>}
-          {!iosDestValue && <IconButton onClick={() => setIosDestValue("https://")}><PhoneIphone color="primary" /></IconButton>}
-          {!androidDestValue && <IconButton onClick={() => setAndroidDestValue("https://")}><Android color="primary" /></IconButton>}
+          {!webEnabled && <IconButton onClick={() => { setWebEnabled(true); setWebDestValue("https://") }}><Public color="primary" /></IconButton>}
+          {!iosEnabled && <IconButton onClick={() => { setIosEnabled(true); setIosDestValue("https://") }}><PhoneIphone color="primary" /></IconButton>}
+          {!androidEnabled && <IconButton onClick={() => { setAndroidEnabled(true); setAndroidDestValue("https://") }}><Android color="primary" /></IconButton>}
 
-          {webDestValue && <Destination platform="web" value={webDestValue} onChange={val => setWebDestValue(val)} />}
-          {iosDestValue && <Destination platform="ios" value={iosDestValue} onChange={val => setIosDestValue(val)} />}
-          {androidDestValue && <Destination platform="android" value={androidDestValue} onChange={val => setAndroidDestValue(val)} />}
+          {(webDestValue || webEnabled) && <Destination platform="web" value={webDestValue} onRemove={() => { setWebEnabled(false); setWebDestValue("") }} onChange={val => setWebDestValue(val)} />}
+          {(iosDestValue || iosEnabled) && <Destination platform="ios" value={iosDestValue} onRemove={() => { setIosEnabled(false); setIosDestValue("") }} onChange={val => setIosDestValue(val)} />}
+          {(androidDestValue || androidEnabled) && <Destination platform="android" value={androidDestValue} onRemove={() => { setAndroidEnabled(false); setAndroidDestValue("") }} onChange={val => setAndroidDestValue(val)} />}
 
         </Box>
 
