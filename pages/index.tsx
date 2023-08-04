@@ -1,10 +1,10 @@
-import { useCallback, useState } from "react"
+import { useState } from "react"
 import { GetServerSideProps } from "next"
 import Head from "next/head"
 
 import { Box, Typography, Button, Divider, Paper } from "@mui/material"
 import { DataGrid, GridColDef, GridValidRowModel, GridActionsCellItem, GridToolbarContainer } from "@mui/x-data-grid"
-import { Add, Edit, CopyAll, Refresh, Delete } from "@mui/icons-material"
+import { Add, Edit, CopyAll, Refresh } from "@mui/icons-material"
 
 import auth, { User, UserDetail } from "@/lib/services/auth"
 import { fetchLinkConfigs, LinkConfig } from "@/lib/services/linkConfig"
@@ -39,7 +39,7 @@ export default function Home({
   }
 
   const handleRefresh = async () => {
-    const res = await fetch('/api/linkConfigs')
+    const res = await fetch("/api/linkConfigs")
     if (res && res.ok) {
       const result = await res.json()
       setData(result)

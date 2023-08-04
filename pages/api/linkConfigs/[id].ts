@@ -1,7 +1,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from "next"
 
-import { LinkConfig, deleteById } from "@/lib/services/linkConfig"
+import { deleteById } from "@/lib/services/linkConfig"
 import auth from "@/lib/services/auth"
 
 
@@ -11,7 +11,7 @@ export default async function handler(
 ) {
   const user = await auth.getUserWithContext({ req, res } as any)
   if (!user) {
-    res.redirect('/auth/signin')
+    res.redirect("/auth/signin")
     return
   }
 

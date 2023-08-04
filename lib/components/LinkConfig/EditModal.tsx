@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState } from "react"
 
 import {
   Dialog,
@@ -11,11 +11,11 @@ import {
   Button,
   CircularProgress,
   Box,
-} from '@mui/material'
-import { Close } from '@mui/icons-material'
+} from "@mui/material"
+import { Close } from "@mui/icons-material"
 
 import { LinkConfig } from "@/lib/services/linkConfig"
-import { ConfirmButton } from '../ConfirmButton'
+import { ConfirmButton } from "../ConfirmButton"
 
 export interface EditModalProps {
   open: boolean
@@ -24,29 +24,29 @@ export interface EditModalProps {
 }
 
 const EditModal = ({ open, onClose, config }: EditModalProps): JSX.Element => {
-  console.log('config', config)
+  console.log("config", config)
   const [name, setName] = useState(config?.name || "")
   const [seoTitle, setSeoTitle] = useState(config?.seo?.title || "")
   const [seoDescription, setSeoDescription] = useState(config?.seo?.description || "")
   const [seoMedia, setSeoMedia] = useState(config?.seo?.media || "")
 
-  const [error, setError] = useState('')
+  const [error, setError] = useState("")
   const [isLoading, setIsLoading] = useState(false)
 
   const handleClose = () => {
-    setName('')
-    setError('')
+    setName("")
+    setError("")
     setIsLoading(false)
     onClose && onClose()
   }
 
   const createNewConfig = async (): Promise<string | undefined> => {
     try {
-      const res = await fetch('/api/linkConfigs', {
-        method: 'POST',
+      const res = await fetch("/api/linkConfigs", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
+          "Content-Type": "application/json",
+          Accept: "application/json",
         },
         body: JSON.stringify({
           id: config?.id || "",
@@ -61,23 +61,23 @@ const EditModal = ({ open, onClose, config }: EditModalProps): JSX.Element => {
       })
 
       if (!res || !res.ok) {
-        console.error('Failed to submit data')
-        setError('Failed to submit data')
+        console.error("Failed to submit data")
+        setError("Failed to submit data")
 
         return
       }
       const data = await res.json()
       return data.docId
     } catch (err) {
-      console.error('Failed to submit data', err)
-      setError('Failed to submit data')
+      console.error("Failed to submit data", err)
+      setError("Failed to submit data")
     }
   }
 
   const handleSubmit = async () => {
     setIsLoading(true)
     if (!name) {
-      setError('Name is required.')
+      setError("Name is required.")
       setIsLoading(false)
       return
     }
@@ -100,10 +100,10 @@ const EditModal = ({ open, onClose, config }: EditModalProps): JSX.Element => {
 
   return (
     <Dialog open={open} onClose={handleClose} fullWidth>
-      <AppBar sx={{ position: 'relative' }} color="transparent" elevation={0}>
+      <AppBar sx={{ position: "relative" }} color="transparent" elevation={0}>
         <Toolbar>
           <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
-            {config?.id ? 'Edit' : 'New'} Link Config
+            {config?.id ? "Edit" : "New"} Link Config
           </Typography>
           <IconButton
             edge="end"

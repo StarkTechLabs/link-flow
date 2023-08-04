@@ -63,7 +63,7 @@ const SignIn = () => {
         }
       })
       .catch((err) => {
-        console.log('failed to parse error response', err)
+        console.log("failed to parse error response", err)
         setErrorCode("failed/unknown")
       })
     console.error("failed to sign in", {

@@ -4,7 +4,7 @@ import nookies from "nookies"
 import firebaseAdmin from "@/lib/common/firebaseAdmin"
 import constants from "@/lib/common/constants"
 import config from "@/lib/common/config"
-import { createDocument, getDocument, updateDocument } from "@/lib/services/datastore"
+import { getDocument, updateDocument } from "@/lib/services/datastore"
 
 export interface User {
   email?: string

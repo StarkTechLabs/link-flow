@@ -15,7 +15,7 @@ export default async function handler(
 ) {
   const user = await auth.getUserWithContext({ req, res } as any)
   if (!user) {
-    res.redirect('/auth/signin')
+    res.redirect("/auth/signin")
     return
   }
 

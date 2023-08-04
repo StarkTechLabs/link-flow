@@ -1,8 +1,8 @@
-import { GetServerSideProps } from 'next'
-import Head from 'next/head'
-import Error from 'next/error'
+import { GetServerSideProps } from "next"
+import Head from "next/head"
+import Error from "next/error"
 
-import { LinkConfig, fetchById } from '@/lib/services/linkConfig'
+import { LinkConfig, fetchById } from "@/lib/services/linkConfig"
 
 
 interface LinkProps {
