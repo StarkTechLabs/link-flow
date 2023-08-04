@@ -8,14 +8,14 @@ const PlatformRedirect = ({ destinations }: PlatformRedirectProps) => {
     console.log("on iOS")
     const dest = destinations.find(dest => dest.platform === "ios")
     window.location.href = dest?.value || "#"
-    return
+    return null
   }
 
   if (navigator && /Android/i.test(navigator.userAgent)) {
     console.log("on Android")
     const dest = destinations.find(dest => dest.platform === "android")
     window.location.href = dest?.value || "#"
-    return
+    return null
   }
 
   if (window && Array.isArray(destinations)) {
