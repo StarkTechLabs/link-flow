@@ -122,7 +122,7 @@ export default function Home({
   return (
     <>
       <Head>
-        <title>Linx Flow</title>
+        <title>Link Flow</title>
       </Head>
       <main>
         <>

@@ -19,12 +19,25 @@ const LinkPage = ({ data }: LinkProps): JSX.Element => {
     return <Error statusCode={404} />
   }
 
-
+  const title = data?.seo?.title || "Link Flow Config"
+  const desc = data?.seo?.description || "Link Flow Config"
+  const imgSrc = data?.seo?.media || ""
   return (
     <>
       <Head>
-        <title>{data?.seo?.title || "Link Config"}</title>
-        <meta name="description" content={data?.seo?.description || "Link Config"} />
+        <title>{title}</title>
+        <meta property="og:site_name" content={title} />
+        <meta property="og:title" content={title} />
+
+        <meta name="description" content={desc} />
+        <meta property="og:description" content={desc} />
+
+        <meta property="og:image" content={imgSrc} />
+
+        <meta name="twitter:title" content={title} />
+        <meta name="twitter:description" content={desc} />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:image" content={imgSrc} />
       </Head>
       <p>{data?.seo?.title || "Link Config"}</p>
       <PlatformRedirect destinations={data?.destinations || []} />

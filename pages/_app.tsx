@@ -18,7 +18,7 @@ export default function App({ Component, pageProps }: AppProps) {
       <CssBaseline />
       <BusProvider>
         <div className="app-container">
-          {!embed && <Header title="Linx" user={user} />}
+          {!embed && <Header title="Link Flow" user={user} />}
           <Container disableGutters maxWidth="xl">
             <Component {...pageProps} />
           </Container>
