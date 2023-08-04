@@ -4,7 +4,7 @@ import Head from "next/head"
 
 import { Box, Typography, Button, Divider, Paper } from "@mui/material"
 import { DataGrid, GridColDef, GridValidRowModel, GridActionsCellItem, GridToolbarContainer } from "@mui/x-data-grid"
-import { Add, Edit, CopyAll, Refresh } from "@mui/icons-material"
+import { Add, Android, Edit, CopyAll, Refresh, PhoneIphone, Public } from "@mui/icons-material"
 
 import auth, { User, UserDetail } from "@/lib/services/auth"
 import { fetchLinkConfigs, LinkConfig } from "@/lib/services/linkConfig"
@@ -55,7 +55,19 @@ export default function Home({
       field: "name",
       type: "string",
       headerName: "Name",
+      flex: 1,
+    },
+    {
+      field: "destinations",
+      headerName: "Destinations",
       flex: 0.3,
+      renderCell: (params: any) => (
+        <Box display="flex" alignItems="center" gap={1}>
+          {params.value?.find((dst: { platform: string }) => dst.platform === "android") && <Android />}
+          {params.value?.find((dst: { platform: string }) => dst.platform === "ios") && <PhoneIphone />}
+          {params.value?.find((dst: { platform: string }) => dst.platform === "web") && <Public />}
+        </Box>
+      )
     },
     {
       field: "actions",
