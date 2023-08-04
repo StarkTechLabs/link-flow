@@ -16,6 +16,7 @@ import { Close } from "@mui/icons-material"
 
 import { LinkConfig } from "@/lib/services/linkConfig"
 import { ConfirmButton } from "../ConfirmButton"
+import { Destination } from "../Destination"
 
 export interface EditModalProps {
   open: boolean
@@ -29,6 +30,7 @@ const EditModal = ({ open, onClose, config }: EditModalProps): JSX.Element => {
   const [seoTitle, setSeoTitle] = useState(config?.seo?.title || "")
   const [seoDescription, setSeoDescription] = useState(config?.seo?.description || "")
   const [seoMedia, setSeoMedia] = useState(config?.seo?.media || "")
+  const [destinationValue, setDestinationValue] = useState(config?.destinations?.[0]?.value || "")
 
   const [error, setError] = useState("")
   const [isLoading, setIsLoading] = useState(false)
@@ -56,7 +58,10 @@ const EditModal = ({ open, onClose, config }: EditModalProps): JSX.Element => {
             description: seoDescription || "",
             media: seoMedia || "",
           },
-          destinations: [],
+          destinations: [{
+            platform: "web",
+            value: destinationValue,
+          }],
         }),
       })
 
@@ -123,6 +128,13 @@ const EditModal = ({ open, onClose, config }: EditModalProps): JSX.Element => {
           helperText="What should it be called? (not public)"
           onChange={(e) => setName(e.target.value)}
         />
+
+        <Box my={2}>
+          <Typography variant="subtitle1">Destinations</Typography>
+          {/* <Repeater onAdd, onRemove, items={config.destinations}, renderChild /> */}
+          <Destination platform="web" value={destinationValue} onChange={val => setDestinationValue(val)} />
+
+        </Box>
 
         <Box my={2}>
           <Typography variant="subtitle1">SEO Settings</Typography>

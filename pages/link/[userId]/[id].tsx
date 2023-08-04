@@ -1,6 +1,11 @@
 import { GetServerSideProps } from "next"
 import Head from "next/head"
+import dynamic from "next/dynamic"
 import Error from "next/error"
+
+const PlatformRedirect = dynamic(() => import("@/lib/components/PlatformRedirect"), {
+  ssr: false,
+})
 
 import { LinkConfig, fetchById } from "@/lib/services/linkConfig"
 
@@ -14,6 +19,7 @@ const LinkPage = ({ data }: LinkProps): JSX.Element => {
     return <Error statusCode={404} />
   }
 
+
   return (
     <>
       <Head>
@@ -21,7 +27,7 @@ const LinkPage = ({ data }: LinkProps): JSX.Element => {
         <meta name="description" content={data?.seo?.description || "Link Config"} />
       </Head>
       <p>{data?.seo?.title || "Link Config"}</p>
-      <p>Todo: redirect</p>
+      <PlatformRedirect destinations={data?.destinations || []} />
     </>
   )
 }

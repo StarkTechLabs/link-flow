@@ -25,7 +25,6 @@ export interface LinkConfig {
   destinations: Array<Destination>
 }
 
-
 const buildCollectionDocPath = (userId: string, docId?: string): string => {
   const path = `${config.datastore.basePath}/${userId}/configs`
   if (docId) {
