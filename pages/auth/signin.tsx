@@ -1,162 +1,75 @@
 import { useState } from "react"
-import { useRouter } from "next/router"
-import NLink from "next/link"
+import { GetServerSideProps } from "next"
 
 import {
   Box,
-  TextField,
-  Button,
   Typography,
   Link,
-  CircularProgress,
+  List, ListItem,
+  ButtonBase,
+  ListItemText,
+  ListItemIcon,
 } from "@mui/material"
-import { styled } from "@mui/material/styles"
+import { Android, PhoneIphone, Public } from "@mui/icons-material"
 
-const BoxContainer = styled(Box)({
-  width: "100%",
-  height: "100vh",
-  display: "flex",
-  flexDirection: "column",
-  justifyContent: "center",
-  alignItems: "center",
-}) as typeof Box
+import SignInController from "@/lib/controllers/SignIn"
+import RegisterController from "@/lib/controllers/Register"
 
-const Form = styled("form")({
-  display: "flex",
-  flexDirection: "column",
-  justifyContent: "center",
-  alignItems: "center",
-})
-
-const FormControl = styled(Box)({
-  margin: 8,
-  display: "flex",
-  flexDirection: "column",
-  justifyContent: "center",
-  alignItems: "center",
-  width: "320px",
-}) as typeof Box
-
-const FormActions = styled(Box)({
-  margin: 16,
-  width: "100%",
-  display: "flex",
-  justifyContent: "space-evenly",
-  alignItems: "center",
-}) as typeof Box
+import Footer from "@/lib/components/Footer/Footer"
 
 const SignIn = () => {
-  const router = useRouter()
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const [isLoading, setIsLoading] = useState(false)
-  const [success, setSuccess] = useState(false)
-  const [errorCode, setErrorCode] = useState<string | null>(null)
-
-  const handleErrorResponse = (res: Response) => {
-    res
-      .json()
-      .then((data) => {
-        if (data && data.errorCode) {
-          setErrorCode(data.errorCode)
-        }
-      })
-      .catch((err) => {
-        console.log("failed to parse error response", err)
-        setErrorCode("failed/unknown")
-      })
-    console.error("failed to sign in", {
-      statusText: res.statusText,
-      status: res.status,
-    })
-  }
-
-  const handleSubmit = async (e: any) => {
-    e && e.preventDefault()
-    setIsLoading(true)
-    setErrorCode(null)
-    console.log("signing in user...")
-
-    fetch("/api/auth/signin", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        email,
-        password,
-      }),
-    })
-      .then((res) => {
-        if (res.ok) {
-          console.log("successful sign in")
-          setSuccess(true)
-          router.push("/")
-          return
-        }
-        handleErrorResponse(res)
-      })
-      .catch((err) => {
-        console.error("failed to sign in", err)
-        setErrorCode("failed/unknown")
-      })
-      .finally(() => {
-        setPassword("")
-        setIsLoading(false)
-      })
-  }
-
-  const findErrorText = () => {
-    switch (errorCode) {
-      case "auth/wrong-password":
-        return "Invalid password. Please try again."
-      default:
-        return "Failed to sign in."
-    }
-  }
+  const [showSignIn, setShowSignIn] = useState(false)
 
   return (
-    <BoxContainer>
-      <Typography variant="h4" component="h1">
-        Sign In
-      </Typography>
-      <Form onSubmit={handleSubmit}>
-        <FormControl>
-          <TextField
-            label="Email"
-            value={email}
-            type="email"
-            placeholder="name@domain.com"
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </FormControl>
-        <FormControl>
-          <TextField
-            label="Password"
-            value={password}
-            type="password"
-            autoComplete="current-password"
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </FormControl>
-        {isLoading && <CircularProgress />}
-        {!success && !isLoading && (
-          <FormActions>
-            <Button type="submit" color="primary">
-              Sign In
-            </Button>
-          </FormActions>
-        )}
-      </Form>
-      {success && (
-        <Typography color="primary">Success! Redirecting now...</Typography>
-      )}
-      {errorCode && <Typography color="error">{findErrorText()}</Typography>}
-      <Box m={2}>
-        <Link component={NLink} href="/auth/register">Register</Link>
+    <>
+      <Box display="flex" p={6} alignItems="center" justifyContent="center" width="100%" height="100vh">
+        <Box display="flex" flexDirection="column" alignItems="center" justifyContent="center" width={{ xs: "100%", sm: "100%", md: "50%" }}>
+          <Typography variant="h2" component="h1">Link Flow</Typography>
+          <Typography variant="subtitle1">the power of one link</Typography>
+          <br />
+          <br />
+          <Typography variant="body1">send your users to the right destination no matter what platform they are on</Typography>
+          <br />
+          <br />
+          <Box display="block" width={{ xs: "100%", sm: "100%", md: "50%" }}>
+            <Typography variant="subtitle1">Route to:</Typography>
+            <List>
+              <ListItem>
+                <ListItemIcon><Public color="primary" /></ListItemIcon>
+                <ListItemText primary="Your Website" />
+              </ListItem>
+              <ListItem>
+                <ListItemIcon><Android color="primary" /></ListItemIcon>
+                <ListItemText primary="Your Android App" />
+              </ListItem>
+              <ListItem>
+                <ListItemIcon><PhoneIphone color="primary" /></ListItemIcon>
+                <ListItemText primary="Your iOS app" />
+              </ListItem>
+            </List>
+          </Box>
+          <br /><br />
+          <Box display="block" width={{ xs: "100%", sm: "100%", md: "70%" }}>
+            <Typography variant="body1">Beautiful link previews that you control. Built in SEO settings to customize the link title, description, and image.</Typography>
+          </Box>
+        </Box>
+        <Box display="flex" flexDirection="column" alignItems="center" justifyContent="space-between" width={{ xs: "100%", sm: "100%", md: "50%" }}>
+          {showSignIn && <SignInController />}
+          {!showSignIn && <RegisterController />}
+          <Box m={2}>
+            <Link component={ButtonBase} onClick={() => setShowSignIn(!showSignIn)}>{showSignIn ? "Register" : "Sign In"}</Link>
+          </Box>
+        </Box>
       </Box>
-    </BoxContainer>
+      {/* below the fold */}
+      <Footer />
+    </>
   )
 }
 
 export default SignIn
+
+export const getServerSideProps: GetServerSideProps = async () => {
+
+  return { props: { shouldEmbed: true } }
+}

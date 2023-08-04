@@ -1,25 +1,15 @@
 import { useState } from "react"
 import { useRouter } from "next/router"
-import NLink from "next/link"
 
 import {
   Box,
   TextField,
   Button,
   Typography,
-  Link,
   CircularProgress,
 } from "@mui/material"
 import { styled } from "@mui/material/styles"
 
-const BoxContainer = styled(Box)({
-  width: "100%",
-  height: "100vh",
-  display: "flex",
-  flexDirection: "column",
-  justifyContent: "center",
-  alignItems: "center",
-}) as typeof Box
 
 const Form = styled("form")({
   display: "flex",
@@ -45,7 +35,7 @@ const FormActions = styled(Box)({
   alignItems: "center",
 }) as typeof Box
 
-const SignIn = () => {
+const Register = () => {
   const router = useRouter()
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
@@ -125,9 +115,9 @@ const SignIn = () => {
   }
 
   return (
-    <BoxContainer>
+    <>
       <Typography variant="h4" component="h1">
-        Register
+        Sign Up Today For Free
       </Typography>
       <Form onSubmit={handleSubmit}>
         <FormControl>
@@ -170,11 +160,8 @@ const SignIn = () => {
         <Typography color="primary">Success! Redirecting now...</Typography>
       )}
       {errorCode && <Typography color="error">{findErrorText()}</Typography>}
-      <Box m={2}>
-        <Link component={NLink} href="/auth/signin">Sign In</Link>
-      </Box>
-    </BoxContainer>
+    </>
   )
 }
 
-export default SignIn
+export default Register
