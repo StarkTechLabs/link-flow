@@ -12,7 +12,7 @@ import {
   CircularProgress,
   Box,
 } from "@mui/material"
-import { Close } from "@mui/icons-material"
+import { Android, Close, PhoneIphone, Public } from "@mui/icons-material"
 
 import { LinkConfig } from "@/lib/services/linkConfig"
 import { ConfirmButton } from "../ConfirmButton"
@@ -30,7 +30,9 @@ const EditModal = ({ open, onClose, config }: EditModalProps): JSX.Element => {
   const [seoTitle, setSeoTitle] = useState(config?.seo?.title || "")
   const [seoDescription, setSeoDescription] = useState(config?.seo?.description || "")
   const [seoMedia, setSeoMedia] = useState(config?.seo?.media || "")
-  const [destinationValue, setDestinationValue] = useState(config?.destinations?.[0]?.value || "")
+  const [webDestValue, setWebDestValue] = useState(config?.destinations?.find(dest => dest.platform === "web")?.value || "")
+  const [iosDestValue, setIosDestValue] = useState(config?.destinations?.find(dest => dest.platform === "ios")?.value || "")
+  const [androidDestValue, setAndroidDestValue] = useState(config?.destinations?.find(dest => dest.platform === "android")?.value || "")
 
   const [error, setError] = useState("")
   const [isLoading, setIsLoading] = useState(false)
@@ -40,6 +42,29 @@ const EditModal = ({ open, onClose, config }: EditModalProps): JSX.Element => {
     setError("")
     setIsLoading(false)
     onClose && onClose()
+  }
+
+  const buildDestinations = () => {
+    const destinations = []
+    if (webDestValue) {
+      destinations.push({
+        platform: "web",
+        value: webDestValue,
+      })
+    }
+    if (iosDestValue) {
+      destinations.push({
+        platform: "ios",
+        value: iosDestValue,
+      })
+    }
+    if (androidDestValue) {
+      destinations.push({
+        platform: "android",
+        value: androidDestValue,
+      })
+    }
+    return destinations
   }
 
   const createNewConfig = async (): Promise<string | undefined> => {
@@ -58,10 +83,7 @@ const EditModal = ({ open, onClose, config }: EditModalProps): JSX.Element => {
             description: seoDescription || "",
             media: seoMedia || "",
           },
-          destinations: [{
-            platform: "web",
-            value: destinationValue,
-          }],
+          destinations: buildDestinations(),
         }),
       })
 
@@ -102,7 +124,6 @@ const EditModal = ({ open, onClose, config }: EditModalProps): JSX.Element => {
     setIsLoading(false)
   }
 
-
   return (
     <Dialog open={open} onClose={handleClose} fullWidth>
       <AppBar sx={{ position: "relative" }} color="transparent" elevation={0}>
@@ -131,8 +152,14 @@ const EditModal = ({ open, onClose, config }: EditModalProps): JSX.Element => {
 
         <Box my={2}>
           <Typography variant="subtitle1">Destinations</Typography>
-          {/* <Repeater onAdd, onRemove, items={config.destinations}, renderChild /> */}
-          <Destination platform="web" value={destinationValue} onChange={val => setDestinationValue(val)} />
+          {/* todo: better check here */}
+          {!webDestValue && <IconButton onClick={() => setWebDestValue("https://")}><Public color="primary" /></IconButton>}
+          {!iosDestValue && <IconButton onClick={() => setIosDestValue("https://")}><PhoneIphone color="primary" /></IconButton>}
+          {!androidDestValue && <IconButton onClick={() => setAndroidDestValue("https://")}><Android color="primary" /></IconButton>}
+
+          {webDestValue && <Destination platform="web" value={webDestValue} onChange={val => setWebDestValue(val)} />}
+          {iosDestValue && <Destination platform="ios" value={iosDestValue} onChange={val => setIosDestValue(val)} />}
+          {androidDestValue && <Destination platform="android" value={androidDestValue} onChange={val => setAndroidDestValue(val)} />}
 
         </Box>
 

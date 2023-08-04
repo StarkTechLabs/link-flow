@@ -27,8 +27,9 @@ export const Destination = ({ platform, value, onChange }: DestinationProps) => 
         <PlatformIcon />
       </Box>
 
-
       {platform === "web" && <Web value={value} onChange={onChange} />}
+      {platform === "ios" && <IOSDestination value={value} onChange={onChange} />}
+      {platform === "android" && <AndroidDestination value={value} onChange={onChange} />}
     </Box>
   )
 }
@@ -41,6 +42,30 @@ const Web = ({ value, onChange }: { value: string, onChange: (value: string) => 
       value={value}
       type="text"
       helperText="What URL should we send the user to?"
+      onChange={(e) => onChange(e.target.value)}
+    />
+  )
+}
+
+const IOSDestination = ({ value, onChange }: { value: string, onChange: (value: string) => void }) => {
+  return (
+    <TextField
+      label="Destination"
+      value={value}
+      type="text"
+      helperText="Please provider the iOS Universal Link you would like to redirect to?"
+      onChange={(e) => onChange(e.target.value)}
+    />
+  )
+}
+
+const AndroidDestination = ({ value, onChange }: { value: string, onChange: (value: string) => void }) => {
+  return (
+    <TextField
+      label="Destination"
+      value={value}
+      type="text"
+      helperText="Please provider the Android App Link you would like to redirect to?"
       onChange={(e) => onChange(e.target.value)}
     />
   )

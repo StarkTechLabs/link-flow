@@ -30,7 +30,6 @@ export default function Home({
 
   const handleCopy = (docId: string) => {
     if (navigator.clipboard) {
-      // todo: fix copy url
       navigator.clipboard.writeText(
         `${window.location.host}/link/${userId}/${docId}`
       )
