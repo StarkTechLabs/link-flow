@@ -117,6 +117,7 @@ const SignIn = () => {
             value={email}
             type="email"
             placeholder="name@domain.com"
+            autoComplete="email-address"
             onChange={(e) => setEmail(e.target.value)}
           />
         </FormControl>

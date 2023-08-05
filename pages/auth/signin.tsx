@@ -22,7 +22,12 @@ const SignIn = () => {
 
   return (
     <>
-      <Box display="flex" p={6} alignItems="center" justifyContent="center" width="100%" height="100vh">
+      <Box
+        p={6} display="flex"
+        flexDirection={{ xs: "column", sm: "column", md: "row" }}
+        alignItems="center" justifyContent="center"
+        width="100%" height={{ xs: "auto", sm: "auto", md: "100vh" }}
+      >
         <Box display="flex" flexDirection="column" alignItems="center" justifyContent="center" width={{ xs: "100%", sm: "100%", md: "50%" }}>
           <Typography variant="h2" component="h1">Link Flow</Typography>
           <Typography variant="subtitle1">the power of one link</Typography>
@@ -53,7 +58,8 @@ const SignIn = () => {
             <Typography variant="body1">Beautiful link previews that you control. Built in SEO settings to customize the link title, description, and image.</Typography>
           </Box>
         </Box>
-        <Box display="flex" flexDirection="column" alignItems="center" justifyContent="space-between" width={{ xs: "100%", sm: "100%", md: "50%" }}>
+        <br />
+        <Box my={2} display="flex" flexDirection="column" alignItems="center" justifyContent="space-between" width={{ xs: "100%", sm: "100%", md: "50%" }}>
           {showSignIn && <SignInController />}
           {!showSignIn && <RegisterController />}
           <Box m={2}>
