@@ -3,6 +3,7 @@ import Container from "@mui/material/Container"
 import CssBaseline from "@mui/material/CssBaseline"
 import { ThemeProvider } from "@mui/material/styles"
 
+import GA from "@/lib/components/GA"
 import BusProvider from "@/lib/components/BusProvider/BusProvider"
 import Notification from "@/lib/components/Notification/Notification"
 import Header from "@/lib/components/Header/Header"
@@ -14,18 +15,21 @@ export default function App({ Component, pageProps }: AppProps) {
   const user = pageProps && pageProps.user
 
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <BusProvider>
-        <div className="app-container">
-          {!embed && <Header title="Link Flow" user={user} />}
-          <Container disableGutters maxWidth="xl">
-            <Component {...pageProps} />
-          </Container>
-          {!embed && <Footer />}
-          <Notification />
-        </div>
-      </BusProvider>
-    </ThemeProvider>
+    <>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <BusProvider>
+          <div className="app-container">
+            {!embed && <Header title="Link Flow" user={user} />}
+            <Container disableGutters maxWidth="xl">
+              <Component {...pageProps} />
+            </Container>
+            {!embed && <Footer />}
+            <Notification />
+          </div>
+        </BusProvider>
+      </ThemeProvider>
+      <GA />
+    </>
   )
 }

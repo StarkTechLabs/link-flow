@@ -1,5 +1,4 @@
 import { Html, Head, Main, NextScript } from "next/document"
-import GA from "@/lib/components/GA"
 
 export default function Document() {
   return (
@@ -9,7 +8,6 @@ export default function Document() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
         <meta name="theme-color" content="#202124" />
-        <GA />
       </Head>
       <body>
         <Main />
