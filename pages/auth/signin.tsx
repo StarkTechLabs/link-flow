@@ -16,17 +16,22 @@ import SignInController from "@/lib/controllers/SignIn"
 import RegisterController from "@/lib/controllers/Register"
 
 import Footer from "@/lib/components/Footer/Footer"
+import Head from "next/head"
 
 const SignIn = () => {
   const [showSignIn, setShowSignIn] = useState(false)
 
   return (
     <>
+      <Head>
+        <title>Link Flow - Sign In</title>
+        <meta name="description" content="Link Flow - the power of one link" />
+      </Head>
       <Box
         p={6} display="flex"
         flexDirection={{ xs: "column", sm: "column", md: "row" }}
         alignItems="center" justifyContent="center"
-        width="100%" height={{ xs: "auto", sm: "auto", md: "100vh" }}
+        width="100%" height={{ xs: "auto", sm: "auto", md: "90vh" }}
       >
         <Box display="flex" flexDirection="column" alignItems="center" justifyContent="center" width={{ xs: "100%", sm: "100%", md: "50%" }}>
           <Typography variant="h2" component="h1">Link Flow</Typography>
@@ -68,6 +73,16 @@ const SignIn = () => {
         </Box>
       </Box>
       {/* below the fold */}
+      {/* <Box display="flex" flexDirection="column" alignItems="center">
+        <Typography variant="h2">How it works</Typography>
+        <Typography variant="body1">Send your users one link: app.yourapp.example</Typography>
+        <Typography variant="body1">Have that domain configured to point to your Link Flow link</Typography>
+        <Typography variant="body1">Once a user follows that link, we will determine the best place to send them based on their platform and your configuration</Typography>
+        <Typography variant="body1">If the user is on an iOS device and has your app installed, we will deep link them into your app</Typography>
+        <Typography variant="body1">If the user is on an iOS device but has not installed your app, we sent them to your App Store listing</Typography>
+        <Typography variant="body1">Same for Android devices</Typography>
+      </Box> */}
+
       <Footer />
     </>
   )
