@@ -1,6 +1,13 @@
-# linx
+# Link Flow
 
-Next.js service to provide deeps links that work across all platforms.
+Next.js service to provide deeps links that work across all platforms. Sign up for the demo [links.starktech.dev](https://links.starktech.dev)
+
+Alternative to Firebase Dynamic Links which is now deprecated and set to shut down on August 25, 2025.
+
+
+![Register Screenshot](docs/assets/signin_screen.png)
+
+![Edit Link Configuration Screenshot](docs/assets/edit_screen.png)
 
 ## Getting Started
 
